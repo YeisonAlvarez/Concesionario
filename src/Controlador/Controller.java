@@ -18,158 +18,34 @@ public class Controller {
 	ArrayList<Vehiculo> lista_vehiculos_disponibles = new ArrayList<Vehiculo>();
 
 	/**
-	 * Este metodo busca un vehiculo por su placa
-	 * 
-	 * @param placa_busqueda
-	 * @return un objeto de tipo de vehiculo que corresponde al vehiculo encontrado
+	 * @return lista de vehiculos disponibles
 	 */
 
 	public ArrayList<Vehiculo> getLista_vehiculos_disponibles() {
 		return lista_vehiculos_disponibles;
 	}
 
+	/**
+	 * Set para lista de vehiculos
+	 * @param lista_vehiculos_disponibles
+	 */
 	public void setLista_vehiculos_disponibles(ArrayList<Vehiculo> lista_vehiculos_disponibles) {
 		this.lista_vehiculos_disponibles = lista_vehiculos_disponibles;
 	}
 
-	public Vehiculo buscarPorPlaca(String placa_busqueda) {
-
-		for (int i = 0; i < miAuto.getLista_autos_disponibles().size(); i++) {
-
-			if (miAuto.getLista_autos_disponibles().get(i).getPlaca().equals(placa_busqueda)) {
-
-				return miAuto.getLista_autos_disponibles().get(i);
-			}
-
-		}
-		return null;
-	}
-
 	/**
-	 * Este metodo busca un vehiculo por su marca
+	 * Metodo que registra un auto con todos sus parametros
 	 * 
-	 * @param marca_busqueda
-	 * @return un ArrayList con los vehiculos que tengas la misma marca buscada
+	 * @param placa
+	 * @param marca
+	 * @param referencia
+	 * @param modelo
+	 * @param precio
+	 * @param num_ruedas
+	 * @param num_puertas
+	 * @param is_gasolina
+	 * @return true or false
 	 */
-	public ArrayList<Vehiculo> buscarPorMarca(String marca_busqueda) {
-
-		ArrayList lista_vehiculos_encontrados = new ArrayList<Vehiculo>();
-
-		for (int i = 0; i < lista_vehiculos_disponibles.size(); i++) {
-
-			if (lista_vehiculos_disponibles.get(i).getMarca().equals(marca_busqueda)) {
-
-				lista_vehiculos_encontrados.add(lista_vehiculos_disponibles.get(i));
-			}
-
-		}
-
-		return lista_vehiculos_encontrados;
-	}
-
-	/**
-	 * Este metodo busca vehiculo por referencia
-	 * 
-	 * @param referencia_busqueda
-	 * @return un arraylist con los vehiculos que cuentan con la misma referencia
-	 *         buscada
-	 */
-	public ArrayList<Vehiculo> buscarPorReferencia(String referencia_busqueda) {
-
-		ArrayList lista_vehiculos_referencia = new ArrayList<Vehiculo>();
-
-		for (int i = 0; i < lista_vehiculos_disponibles.size(); i++) {
-
-			if (lista_vehiculos_disponibles.get(i).getReferenica().equals(referencia_busqueda)) {
-
-				lista_vehiculos_referencia.add(lista_vehiculos_disponibles.get(i));
-			}
-
-		}
-
-		return lista_vehiculos_referencia;
-	}
-
-	/**
-	 * Este metodo busca vehiculo por modelo
-	 * 
-	 * @param referencia_busqueda
-	 * @return un arraylist con los vehiculos que cuentan con el mismo modelo
-	 *         buscado
-	 */
-	public ArrayList<Vehiculo> buscarPorModelo(String modelo_busqueda) {
-
-		ArrayList lista_vehiculos_modelo = new ArrayList<Vehiculo>();
-
-		for (int i = 0; i < lista_vehiculos_disponibles.size(); i++) {
-
-			if (lista_vehiculos_disponibles.get(i).getReferenica().equals(modelo_busqueda)) {
-
-				lista_vehiculos_modelo.add(lista_vehiculos_disponibles.get(i));
-			}
-
-		}
-
-		return lista_vehiculos_modelo;
-	}
-
-	/**
-	 * Este metodo busca un vehiculo por precio
-	 * 
-	 * @param referencia_busqueda
-	 * @return un arraylist con los vehiculos que cuentan con el mismo precio
-	 *         buscado
-	 */
-	public ArrayList<Vehiculo> buscarPorPrecio(int precio_busqueda) {
-
-		ArrayList lista_vehiculos_precio = new ArrayList<Vehiculo>();
-
-		for (int i = 0; i < lista_vehiculos_disponibles.size(); i++) {
-
-			if (lista_vehiculos_disponibles.get(i).getReferenica().equals(precio_busqueda)) {
-
-				lista_vehiculos_precio.add(lista_vehiculos_disponibles.get(i));
-			}
-
-		}
-
-		return lista_vehiculos_precio;
-	}
-
-	/**
-	 * Este metodo permite listar todos los vehiculos disponibles
-	 * 
-	 * @return el listado con todos los vehiculos disponibles
-	 */
-	public ArrayList<Vehiculo> listarVehiculos() {
-
-		return miAuto.getLista_autos_disponibles();
-	}
-
-	public int getMotosDisponibles() {
-		return 0;
-	}
-
-	public int getAutosDisponibles() {
-		return 0;
-	}
-
-	public int getCamionesDisponibles() {
-		return 0;
-	}
-
-	public int getMotosVendidas() {
-		return 0;
-	}
-
-	public int getAutosVendidos() {
-		return 0;
-	}
-
-	public int getCamionesVendidos() {
-		return 0;
-	}
-
 	public boolean registrarAuto(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int num_puertas, boolean is_gasolina) {
 
@@ -181,6 +57,19 @@ public class Controller {
 
 	}
 
+	/**
+	 * Metodo que registra un moto con todos sus parametros
+	 * 
+	 * @param placa
+	 * @param marca
+	 * @param referencia
+	 * @param modelo
+	 * @param precio
+	 * @param num_ruedas
+	 * @param cilindraje
+	 * @param tamano_tanque
+	 * @return true or false
+	 */
 	public boolean registrarMoto(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int cilindraje, int tamano_tanque) {
 		miMoto = new Moto(placa, marca, referencia, modelo, precio, num_ruedas, cilindraje, tamano_tanque);
@@ -190,6 +79,18 @@ public class Controller {
 		return true;
 	}
 
+	/**
+	 * Metodo que registra un camion con todos sus parametros
+	 * 
+	 * @param placa
+	 * @param marca
+	 * @param referencia
+	 * @param modelo
+	 * @param precio
+	 * @param num_ruedas
+	 * @param cap_carga
+	 * @return si o registro o no
+	 */
 	public boolean registrarCamion(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int cap_carga) {
 		miCamion = new Camion(placa, marca, referencia, modelo, precio, num_ruedas, cap_carga);
@@ -199,7 +100,5 @@ public class Controller {
 		return true;
 
 	}
-
-
 
 }

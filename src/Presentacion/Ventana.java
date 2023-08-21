@@ -23,6 +23,12 @@ public class Ventana {
 
 	ArrayList<Vehiculo> vehiculos_vendidos = new ArrayList<Vehiculo>();
 
+	/**
+	 * 
+	 * Metodo que permite seleccionar como logearse
+	 * 
+	 * @return la posicion seleccionada por el usuario
+	 */
 	public int autenticarSesion() {
 
 		String[] options = { "Usuario", "Administrador" };
@@ -34,11 +40,16 @@ public class Ventana {
 		return seleccion;
 	}
 
+	/**
+	 * Metodo que permite seleccionar opciones para usuario
+	 * 
+	 * @return la posicion de la opcion elegida por el usuario
+	 */
 	public String invocarMenuPrincipal() {
 
 		String[] opciones_usuario = { "1.Registrar vehículo", "2.Buscar vehículo", "3.Listar vehículos disponibles",
-				"4.Vender vehículo", "5.Registro de ventas", "6.Ver Stock por tipo", "7.Ver Vendidos por tipo",
-				"8.Autenticar Sesion" };
+				"4.Vender vehículo", "5.Registro de ventas", "6.Ver Stock por tipo", "7.Ver vendidos por tipo",
+				"8.Autenticar Sesion", "9.Ver depreciacion vehiculo" };
 		String item_seleccionado = (String) JOptionPane.showInputDialog(null, "Seleccione una opcion",
 				"Concesionario AUTO_AHORA Menu Principal", JOptionPane.DEFAULT_OPTION, null, opciones_usuario,
 				opciones_usuario[0]);
@@ -47,6 +58,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite seleccionar opciones para administrador
+	 * 
+	 * @return la posicion de la opcion elegida por el administrador
+	 */
 	public String invocarMenuPrincipalAdmin() {
 
 		String[] opciones_usuario = { "1.Actualizar Vehiculo", "2.Ver total ventas", "3.Eliminar Vehiculo en stock",
@@ -59,6 +75,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite seleccionar opciones de busqueda al usuario
+	 * 
+	 * @return la posicion de la opcion elegida de busqueda
+	 */
 	public int buscarVehiculoPorItem() {
 
 		String[] opciones_busqueda = { "Placa", "Marca", "Referencia", "Modelo", "Precio" };
@@ -69,52 +90,81 @@ public class Ventana {
 		return item_buscado;
 	}
 
+	/**
+	 * Metodo que permite buscar un vehiculo por placa
+	 * 
+	 * @return true and false si encontro el vehiculo
+	 */
 	public boolean buscarVehiculoPorPlaca() {
+
+		int con = 0;
+
+		String vehiculo_buscado = "";
 
 		String placa_ingresada = JOptionPane.showInputDialog("Ingresar placa de vehiculo a buscar");
 
 		for (int i = 0; i < miController.getLista_vehiculos_disponibles().size(); i++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equals(placa_ingresada)) {
+			if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equalsIgnoreCase(placa_ingresada)) {
 
-				String vehiculo_buscado = miController.getLista_vehiculos_disponibles().get(i).toString();
-				JOptionPane.showMessageDialog(null, vehiculo_buscado);
-				iniciarAplicacionUsuario();
+				vehiculo_buscado += miController.getLista_vehiculos_disponibles().get(i).toString();
 
-				return true;
-			} else {
-				JOptionPane.showMessageDialog(null, "No existe un vehiculo con la placa ingresada");
-				iniciarAplicacionUsuario();
+				con++;
 
-				return false;
 			}
-
 		}
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "El vehiculo con la placa ingresada no esta en stock");
+			iniciarAplicacionUsuario();
+		}
+
+		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por placa: " + placa_ingresada);
+		iniciarAplicacionUsuario();
 
 		return false;
 	}
 
+	/**
+	 * Metodo que permite buscar un vehiculo por marca
+	 * 
+	 * @return true and false si encontro el vehiculo
+	 */
 	public boolean buscarVehiculoPorMarca() {
 
 		String vehiculo_buscado = "";
 
 		String marca_ingresada = JOptionPane.showInputDialog("Ingresar marca de vehiculo");
 
+		int con = 0;
 		for (int j = 0; j < miController.getLista_vehiculos_disponibles().size(); j++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(j).getMarca().equals(marca_ingresada)) {
+			if (miController.getLista_vehiculos_disponibles().get(j).getMarca().equalsIgnoreCase(marca_ingresada)) {
 
 				vehiculo_buscado += miController.getLista_vehiculos_disponibles().get(j).toString();
+
+				con++;
 			}
 
 		}
-		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por Marca: " + marca_ingresada);
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "No hay vehiculos en stock de la marca ingresada");
+			iniciarAplicacionUsuario();
+		}
+
+		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por marca: " + marca_ingresada);
 		iniciarAplicacionUsuario();
 
 		return true;
 	}
 
+	/**
+	 * Metodo que permite buscar un vehiculo por modelo
+	 * 
+	 * @return true and false si encontro el vehiculo
+	 */
 	public boolean buscarVehiculoPorModelo() {
+
+		int con = 0;
 
 		String vehiculo_buscado = "";
 
@@ -122,19 +172,33 @@ public class Ventana {
 
 		for (int j = 0; j < miController.getLista_vehiculos_disponibles().size(); j++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(j).getModelo().equals(modelo_ingresado)) {
+			if (miController.getLista_vehiculos_disponibles().get(j).getModelo().equalsIgnoreCase(modelo_ingresado)) {
 
 				vehiculo_buscado += miController.getLista_vehiculos_disponibles().get(j).toString();
+
+				con++;
 			}
 
 		}
-		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por Modelo: " + modelo_ingresado);
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "No hay vehiculos en stock del modelo ingresado");
+			iniciarAplicacionUsuario();
+		}
+
+		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por modelo: " + modelo_ingresado);
 		iniciarAplicacionUsuario();
 
 		return false;
 	}
 
+	/**
+	 * Metodo que permite buscar un vehiculo por referencia
+	 * 
+	 * @return true and false si encontro el vehiculo
+	 */
 	public boolean buscarVehiculoPorReferencia() {
+
+		int con = 0;
 
 		String vehiculo_buscado = "";
 
@@ -142,18 +206,34 @@ public class Ventana {
 
 		for (int j = 0; j < miController.getLista_vehiculos_disponibles().size(); j++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(j).getReferenica().equals(referencia_ingresada)) {
+			if (miController.getLista_vehiculos_disponibles().get(j).getReferenica()
+					.equalsIgnoreCase(referencia_ingresada)) {
 				vehiculo_buscado += miController.getLista_vehiculos_disponibles().get(j).toString();
 
+				con++;
 			}
+
 		}
-		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por Referencia: " + referencia_ingresada);
+
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "No hay vehiculos en stock de la referenica ingresada");
+			iniciarAplicacionUsuario();
+		}
+
+		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por referencia: " + referencia_ingresada);
 		iniciarAplicacionUsuario();
 
 		return true;
 	}
 
+	/**
+	 * Metodo que permite buscar un vehiculo por precio
+	 * 
+	 * @return true and false si encontro el vehiculo
+	 */
 	public boolean buscarVehiculoPorPrecio() {
+
+		int con = 0;
 
 		String vehiculo_buscado = "";
 
@@ -161,17 +241,28 @@ public class Ventana {
 
 		for (int j = 0; j < miController.getLista_vehiculos_disponibles().size(); j++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(j).getPrecio().equals(precio_ingresado)) {
+			if (miController.getLista_vehiculos_disponibles().get(j).getPrecio().equalsIgnoreCase(precio_ingresado)) {
 				vehiculo_buscado += miController.getLista_vehiculos_disponibles().get(j).toString();
 
+				con++;
 			}
 		}
-		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por Precio: " + precio_ingresado);
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "No hay vehiculo en stock del precio ingresado");
+			iniciarAplicacionUsuario();
+		}
+
+		pintarTabla(vehiculo_buscado, "Lista de Vehiculos por precio: " + precio_ingresado);
 		iniciarAplicacionUsuario();
 
 		return true;
 	}
 
+	/**
+	 * Metodo que permite elegir opcion de busqueda por tipo
+	 * 
+	 * @return la posicion de la opcion elegida por el usuario
+	 */
 	public int verMenuTipo() {
 		String[] opciones_busqueda = { "Autos", "Motos", "Camiones" };
 		int item_buscado1 = JOptionPane.showOptionDialog(null, "Seleccione un criterio de busqueda:",
@@ -181,6 +272,11 @@ public class Ventana {
 		return item_buscado1;
 	}
 
+	/**
+	 * Metodo que permite ver los vehiculos de el tipo seleccionado
+	 * 
+	 * @return true and false si existen vehiculos o no del tipo seleccionado
+	 */
 	public boolean verPorTipo() {
 
 		String cadena = "";
@@ -230,6 +326,11 @@ public class Ventana {
 		return true;
 	}
 
+	/**
+	 * Metodo que permite elegir la opcion de inicio
+	 * 
+	 * @return
+	 */
 	public void seleccionarUsuario() {
 		int seleccion = autenticarSesion();
 
@@ -242,6 +343,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite elegir opciones de administrador
+	 * 
+	 * @return
+	 */
 	private void iniciarAplicacionAdministrador() {
 		// TODO Auto-generated method stub
 
@@ -269,6 +375,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite eliminar un vehiculo de la lista de disponibles
+	 * 
+	 * @return
+	 */
 	private void eliminarVehiculo() {
 		// TODO Auto-generated method stub
 
@@ -280,7 +391,7 @@ public class Ventana {
 
 			for (int i = 0; i < miController.getLista_vehiculos_disponibles().size(); i++) {
 
-				if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equals(placa_ingresada)) {
+				if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equalsIgnoreCase(placa_ingresada)) {
 
 					miController.getLista_vehiculos_disponibles().remove(i);
 					JOptionPane.showMessageDialog(null, "Vehiculo eliminado correctamente del stock");
@@ -289,17 +400,26 @@ public class Ventana {
 			}
 			iniciarAplicacionAdministrador();
 
-
 		}
 
 	}
 
+	/**
+	 * Metodo que permite calcular las ventas de vehiculos y mostrar el resultado
+	 * 
+	 * @return
+	 */
 	private void verMontoTotalVentas() {
 
-		JOptionPane.showMessageDialog(null, "El valor total en ventas es: $" + this.monto_total);
+		JOptionPane.showMessageDialog(null, "El valor total en ventas es: $ " + this.monto_total);
 		iniciarAplicacionAdministrador();
 	}
 
+	/**
+	 * Metodo que permite cambiar valores de un vehiculo ya registrado
+	 * 
+	 * @return
+	 */
 	private void actualizarVehiculo() {
 		// TODO Auto-generated method stub
 
@@ -328,7 +448,7 @@ public class Ventana {
 
 			for (int i = 0; i < miController.getLista_vehiculos_disponibles().size(); i++) {
 
-				if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equals(placa_ingresada)) {
+				if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equalsIgnoreCase(placa_ingresada)) {
 
 					placa = JOptionPane.showInputDialog(null, "Diligencia la placa del vehiculo",
 							miController.getLista_vehiculos_disponibles().get(i).getPlaca());
@@ -407,6 +527,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite elegir opcion de busqueda del usuario
+	 * 
+	 * @return la posicion de la opcion elegida por el usuario
+	 */
 	public void iniciarAplicacionUsuario() {
 
 		String item_seleccionado = invocarMenuPrincipal();
@@ -470,12 +595,83 @@ public class Ventana {
 
 			seleccionarUsuario();
 		}
+		if (item_seleccionado.equals("9.Ver depreciacion vehiculo")) {// metodo propio para calcular depreciacio futura
+
+			calcularDepreciacionFutura();
+		}
 
 	}
 
+	/**
+	 * Metodo el calculo de la depresiacion futura del vehiculo
+	 * 
+	 */
+	private void calcularDepreciacionFutura() {
+		// TODO Auto-generated method stub
+
+		int item_vehiculo = verMenuTipo();
+		String placa_ingresada = JOptionPane.showInputDialog(
+				"Ingresar placa de vehiculo del que desea ver la depreciaciòn: \n\nTener en cuenta lo siguiente:\nvida util auto: 5 años\r\n"
+						+ "vida util moto: 2 años\r\n" + "vida util camion: 10 años");
+		double precio = 0.0;
+
+		int con = 0;
+
+		for (int i = 0; i < miController.getLista_vehiculos_disponibles().size(); i++) {
+
+			if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equalsIgnoreCase(placa_ingresada)) {
+
+				precio = Double.parseDouble(miController.getLista_vehiculos_disponibles().get(i).getPrecio());
+
+				if (item_vehiculo == 0) {// Auto
+
+					Auto auto_encontrado = (Auto) miController.getLista_vehiculos_disponibles().get(i);
+					double valor_depreciacion = auto_encontrado.calcularDepreciacionFuturaVehiculo(precio);
+					JOptionPane.showMessageDialog(null, "El precio actual del vehiculo es:" + precio + "\n\n"
+							+ "El precio del auto despues de depreciaciòn serà: " + valor_depreciacion);
+
+					con++;
+
+				}
+				if (item_vehiculo == 1) {// Moto
+
+					Moto auto_encontrado = (Moto) miController.getLista_vehiculos_disponibles().get(i);
+					double valor_depreciacion = auto_encontrado.calcularDepreciacionFuturaVehiculo(precio);
+					JOptionPane.showMessageDialog(null, "El precio actual del vehiculo es:" + precio + "\n\n"
+							+ "El precio de la moto despues de depreciaciòn serà: " + valor_depreciacion);
+
+					con++;
+				}
+				if (item_vehiculo == 2) {// Camion
+
+					Camion auto_encontrado = (Camion) miController.getLista_vehiculos_disponibles().get(i);
+					double valor_depreciacion = auto_encontrado.calcularDepreciacionFuturaVehiculo(precio);
+					JOptionPane.showMessageDialog(null, "El precio actual del vehiculo es:" + precio + "\n\n"
+							+ "El precio del camiòn despues de depreciaciòn serà: " + valor_depreciacion);
+					con++;
+				}
+				iniciarAplicacionUsuario();
+
+			}
+
+		}
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "Vehiculo no encontrado");
+			iniciarAplicacionUsuario();
+
+		}
+	}
+
+	/**
+	 * Metodo que permite vender un vehiculo por tipo que se encuentra disponible
+	 * 
+	 * @return
+	 */
 	private void venderPorTipo() {
 		// TODO Auto-generated method stub
+
 		int item_buscado1 = verMenuTipo();
+
 		String cadena = "";
 		String tipo = "";
 
@@ -515,9 +711,16 @@ public class Ventana {
 			}
 
 		}
+		pintarTabla(cadena, tipo);
+		iniciarAplicacionUsuario();
 
 	}
 
+	/**
+	 * Metodo que permite ver las ventas realizadas
+	 * 
+	 * @return
+	 */
 	private void verRegistroVentas() {
 		// TODO Auto-generated method stub
 
@@ -534,32 +737,46 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite vender un vehiculo
+	 * 
+	 * @return o
+	 */
 	private void venderVehiculo() {
 		// TODO Auto-generated method stub
+
+		int con = 0;
+
 		String placa_ingresada = JOptionPane.showInputDialog("Ingresar placa de vehiculo a vender");
 
 		for (int i = 0; i < miController.getLista_vehiculos_disponibles().size(); i++) {
 
-			if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equals(placa_ingresada)) {
+			if (miController.getLista_vehiculos_disponibles().get(i).getPlaca().equalsIgnoreCase(placa_ingresada)) {
 
 				vehiculos_vendidos.add(miController.getLista_vehiculos_disponibles().get(i));
 				this.monto_total += Integer.parseInt(miController.getLista_vehiculos_disponibles().get(i).getPrecio());
 
 				miController.getLista_vehiculos_disponibles().remove(i);
 				JOptionPane.showMessageDialog(null, "Vehiculo vendido satisfactoriamente");
+				con++;
 				break;
 
-			} else {
-				JOptionPane.showInternalMessageDialog(null, "No existe un vehiculo disponible con la placa ingresada");
-
 			}
+		}
 
+		if (con < 1) {
+			JOptionPane.showMessageDialog(null, "No se encontro el vehiculo en stock");
 		}
 
 		iniciarAplicacionUsuario();
 
 	}
 
+	/**
+	 * Metodo que permite listar todos los vehiculos disponibles
+	 * 
+	 * @return
+	 */
 	private void listarVehiculosDisponibles() {
 		// TODO Auto-generated method stub
 
@@ -574,6 +791,12 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite listar todo en un textArea
+	 * 
+	 * @return
+	 */
+
 	public void pintarTabla(String cadena, String mensaje_superior) {
 
 		JTextArea textArea = new JTextArea(cadena);
@@ -585,6 +808,11 @@ public class Ventana {
 		JOptionPane.showMessageDialog(null, scrollPane, mensaje_superior, JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Metodo que permite elegir opcion de busqueda por tipo
+	 * 
+	 * @return la posicion de la opcion elegida por el usuario
+	 */
 	public boolean registrarVehiculoVista() {
 
 		String[] opciones_vehiculos = { "Auto", "Moto", "Camion" };
@@ -640,6 +868,11 @@ public class Ventana {
 		return is_gasolina;
 	}
 
+	/**
+	 * Metodo que permite registrar un auto
+	 * 
+	 * @return yes and false si se registro el vehiculo
+	 */
 	private boolean registrarAutoVista(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int num_puertas, boolean is_gasolina) {
 
@@ -667,6 +900,11 @@ public class Ventana {
 
 	}
 
+	/**
+	 * Metodo que permite registrar un camion
+	 * 
+	 * @return yes and false si se registro el vehiculo
+	 */
 	private boolean registrarCamionVista(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int cap_carga) {
 
@@ -692,6 +930,11 @@ public class Ventana {
 		return false;
 	}
 
+	/**
+	 * Metodo que permite registrar una moto
+	 * 
+	 * @return yes and false si se registro el vehiculo
+	 */
 	private boolean registrarMotoVista(String placa, String marca, String referencia, String modelo, String precio,
 			int num_ruedas, int cilindraje, int tamano_tanque) {
 

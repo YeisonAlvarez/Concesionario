@@ -14,11 +14,16 @@ import Presentacion.Ventana;
  */
 public class Principal {
 
+	/**
+	 * Main principal
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		Ventana miVentana = new Ventana();
 
+		//Metodo por donde se autentica el usuario e inicia la aplicacion
 		miVentana.seleccionarUsuario();
 
 	}

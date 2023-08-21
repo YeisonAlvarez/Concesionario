@@ -10,10 +10,25 @@ public class Moto extends Vehiculo {
 	private int cilindraje;
 	private int tamano_tanque;
 
+	/**
+	 * Contructor vacio
+	 */
 	public Moto() {
 		super();
 	}
 
+	/**
+	 * Constructor de la moto con todos los parametros
+	 * 
+	 * @param placa
+	 * @param marca
+	 * @param referenica
+	 * @param modelo
+	 * @param precio
+	 * @param num_ruedas
+	 * @param cilindraje
+	 * @param tamano_tanque
+	 */
 	public Moto(String placa, String marca, String referenica, String modelo, String precio, int num_ruedas,
 			int cilindraje, int tamano_tanque) {
 		super(placa, marca, referenica, modelo, precio, num_ruedas);
@@ -22,67 +37,76 @@ public class Moto extends Vehiculo {
 
 	}
 
+	/**
+	 * get obtener el cilindraje
+	 * 
+	 * @return
+	 */
 	public int getCilindraje() {
 		return cilindraje;
 	}
 
+	/**
+	 * set actualizar el cilindraje
+	 * 
+	 * @param cilindraje
+	 */
 	public void setCilindraje(int cilindraje) {
 		cilindraje = cilindraje;
 	}
 
+	/**
+	 * get obtener tamaño del tanque
+	 * 
+	 * @return int tamaño del tanque
+	 */
 	public int getTamano_tanque() {
 		return tamano_tanque;
 	}
 
+	/**
+	 * set actualizar el tamaño del tanque
+	 * 
+	 * @param tamano_tanque
+	 */
 	public void setTamano_tanque(int tamano_tanque) {
 		this.tamano_tanque = tamano_tanque;
 	}
 
+	/**
+	 * get par obtener lista de motos disonibles
+	 * 
+	 * @return
+	 */
 	public ArrayList<Vehiculo> getLista_motos_disponibles() {
 		return lista_motos_disponibles;
 	}
 
+	/**
+	 * set para actualizar la lista de motos disponible
+	 * 
+	 * @param lista_motos_disponibles
+	 */
 	public void setLista_motos_disponibles(ArrayList<Vehiculo> lista_motos_disponibles) {
 		this.lista_motos_disponibles = lista_motos_disponibles;
 	}
 
+	/**
+	 * get para obtener la lista de las motos vendidas
+	 * 
+	 * @return
+	 */
 	public ArrayList<Vehiculo> getLista_motos_vendidos() {
 		return lista_motos_vendidos;
 	}
 
+	/**
+	 * set actualizar lista de motos vendidas
+	 * 
+	 * @param lista_motos_vendidos
+	 */
 	public void setLista_motos_vendidos(ArrayList<Vehiculo> lista_motos_vendidos) {
 		this.lista_motos_vendidos = lista_motos_vendidos;
-	}
-
-	@Override
-	public boolean registarVehiculo(Vehiculo vehiculo_nuevo) {
-		if (vehiculo_nuevo == null) {
-
-			return false;
-
-		} else {
-
-			lista_motos_disponibles.add(vehiculo_nuevo);
-
-			return true;
-		}
-	}
-
-	@Override
-	public boolean venderVehiculo(Vehiculo vehiculo_comprado) {
-		for (int i = 0; i < lista_motos_disponibles.size(); i++) {
-
-			if (lista_motos_disponibles.get(i).equals(vehiculo_comprado)) {
-
-				lista_motos_vendidos.add(vehiculo_comprado);
-
-				lista_motos_disponibles.remove(i);// Para eliminar el vehiculo del array
-
-				return true;
-			}
-
-		}
-		return false;
 	}
 
 	@Override
@@ -96,4 +120,9 @@ public class Moto extends Vehiculo {
 		return cadena;
 	}
 
+	@Override
+	public double calcularDepreciacionFuturaVehiculo(double precio) {
+		// TODO Auto-generated method stub
+		return precio-(precio/2);
+	}
 }
